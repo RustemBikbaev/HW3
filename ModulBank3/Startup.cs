@@ -28,6 +28,9 @@ namespace ModulBank3
 
             services.AddScoped<GetUsersInfoRequestHandler>();
             services.AddScoped<IUserInfoService, UserInfoService>();
+
+            services.AddScoped<AppendUsersRequestHandler>();
+            services.AddScoped<IAppendUser, AppendUser_c>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

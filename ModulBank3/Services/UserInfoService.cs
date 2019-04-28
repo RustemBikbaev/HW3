@@ -14,19 +14,6 @@ namespace ModulBank3.Services
         private const string ConnectionString =
             "host=localhost;port=5432;database=homework3;username=postgres;password=1";
 
-        //public async Task<User> GetById(Guid id)
-        //{
-        //    User user = new User
-        //    {
-        //        Email = "test@test.ru",
-        //        Id = id,
-        //        Nickname = "test",
-        //        Phone = "+7 987 654 32 10"
-        //    };
-
-        //    return await Task.FromResult<User>(user);
-        //}
-
 
         public async Task<User> GetById(Guid id)
         {
@@ -36,6 +23,23 @@ namespace ModulBank3.Services
                     "SELECT * FROM users WHERE Id = @id", new { id });
             }
         }
+    }
+
+    public class AppendUser_c : IAppendUser
+    {
+        private const string ConnectionString =
+            "host=localhost;port=5432;database=homework3;username=postgres;password=1";
+
+        public async void AppendUser(User user)
+        {
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                string query = "INSERT INTO users (id, email, nickname, phone) VALUES (@id, @email, @nickname, @phone)";
+
+                await connection.QuerySingleAsync<User>(query, user);
+            }
+        }
+
     }
 
 }

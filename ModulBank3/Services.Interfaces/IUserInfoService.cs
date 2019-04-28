@@ -11,4 +11,9 @@ namespace ModulBank3.Services.Interfaces
         Task<User> GetById(Guid id);
     }
 
+    public interface IAppendUser
+    {
+        void AppendUser(User user);
+    }
+
 }

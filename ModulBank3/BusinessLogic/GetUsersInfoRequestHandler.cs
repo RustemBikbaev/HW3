@@ -25,6 +25,27 @@ namespace ModulBank3.BusinessLogic
 
             return _userInfoService.GetById(id);
         }
+
+        
+
+    }
+
+    public class AppendUsersRequestHandler
+    {
+        private readonly IAppendUser _appendUser;
+
+        public AppendUsersRequestHandler(IAppendUser appendUser)
+        {
+            _appendUser = appendUser;
+        }
+
+        public void AppendUser(User user)
+        {
+            Guid guid = Guid.NewGuid();
+            user.Id = guid;
+            _appendUser.AppendUser(user);
+        }
+
     }
 
 }
