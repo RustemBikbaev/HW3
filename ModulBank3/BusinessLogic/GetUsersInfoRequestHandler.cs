@@ -30,22 +30,22 @@ namespace ModulBank3.BusinessLogic
 
     }
 
-    public class AppendUsersRequestHandler
-    {
-        private readonly IAppendUser _appendUser;
+    //public class AppendUsersRequestHandler
+    //{
+    //    private readonly IAppendUser _appendUser;
 
-        public AppendUsersRequestHandler(IAppendUser appendUser)
-        {
-            _appendUser = appendUser;
-        }
+    //    public AppendUsersRequestHandler(IAppendUser appendUser)
+    //    {
+    //        _appendUser = appendUser;
+    //    }
 
-        public void AppendUser(User user)
-        {
-            Guid guid = Guid.NewGuid();
-            user.Id = guid;
-            _appendUser.AppendUser(user);
-        }
+    //    public void AppendUser(User user)
+    //    {
+    //        Guid guid = Guid.NewGuid();
+    //        user.Id = guid;
+    //        _appendUser.AppendUser(user);
+    //    }
 
-    }
+    //}
 
 }

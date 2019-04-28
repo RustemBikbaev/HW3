@@ -13,6 +13,12 @@ using Microsoft.Extensions.Options;
 using ModulBank3.Services.Interfaces;
 using ModulBank3.BusinessLogic;
 using ModulBank3.Services;
+using MassTransit;
+using ModulBank3.Commands;
+using ModulBank3.Consumers;
+using Microsoft.Extensions.Hosting;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+
 
 namespace ModulBank3
 {
@@ -30,8 +36,34 @@ namespace ModulBank3
             services.AddScoped<IUserInfoService, UserInfoService>();
 
             services.AddScoped<AppendUsersRequestHandler>();
-            services.AddScoped<IAppendUser, AppendUser_c>();
+            //services.AddScoped<AppendUser, AppendUser>();
+
+
+
+            // Обработчики событий MassTransit
+            services.AddScoped<AppendUserConsumer>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<AppendUserConsumer>();
+                x.AddBus(provider => MassTransit.Bus.Factory.CreateUsingInMemory(cfg =>
+                {
+                    cfg.ReceiveEndpoint("append-user-queue", ep =>
+                    {
+                        ep.ConfigureConsumer<AppendUserConsumer>(provider);
+                        EndpointConvention.Map<AppendUserCommand>(ep.InputAddress);
+                    });
+                }));
+
+                x.AddRequestClient<AppendUserCommand>();
+            });
+
+            services.AddSingleton<IHostedService, BusService>();
+
+
+
         }
+
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

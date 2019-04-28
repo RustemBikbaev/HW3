@@ -34,7 +34,7 @@ namespace ModulBank3.Controllers
             Guid guid = Guid.NewGuid();
             user.Id = guid;
 
-            _appendUsersRequestHandler.AppendUser(user);
+            _appendUsersRequestHandler.Handle(user);
             return Task.FromResult<User>(user);
         }
 

@@ -6,6 +6,7 @@ using Dapper;
 using ModulBank3.Models;
 using ModulBank3.Services.Interfaces;
 using Npgsql;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ModulBank3.Services
 {
@@ -23,23 +24,23 @@ namespace ModulBank3.Services
                     "SELECT * FROM users WHERE Id = @id", new { id });
             }
         }
-    }
-
-    public class AppendUser_c : IAppendUser
-    {
-        private const string ConnectionString =
-            "host=localhost;port=5432;database=homework3;username=postgres;password=1";
-
-        public async void AppendUser(User user)
-        {
-            using (var connection = new NpgsqlConnection(ConnectionString))
+  
+            public async Task<IActionResult> AppendUser(User user)
             {
-                string query = "INSERT INTO users (id, email, nickname, phone) VALUES (@id, @email, @nickname, @phone)";
+                using (var connection = new NpgsqlConnection(ConnectionString))
+                {
+                    string query = "INSERT INTO users (id, email, nickname, phone) VALUES (@id, @email, @nickname, @phone)";
 
-                await connection.QuerySingleAsync<User>(query, user);
+                    await connection.QuerySingleAsync<User>(query, user);
+                }
+                return new OkResult();
             }
-        }
+
+        
+
 
     }
+
+   
 
 }
